@@ -10,6 +10,9 @@
    - [Удаление таблицы с помощью команды ***Drop***](#удаление-таблицы-с-помощью-команды-drop)
 4. [Команды манипуляции данными в таблице](#команды-манипуляции-данными-в-таблице)
    - [Select](#select)
+     - Операторы WHERE и ORDER BY с логическими операторами
+     - Операторы GROUP BY и HAVING  с агрегатными функциями
+     - Вложенные запросы
    - [Insert](#insert)
    - [Update](#update)
    - [Delete](#delete)
@@ -48,7 +51,9 @@ DROP TABLE shop.product;
 
 ### Команды манипуляции данными в таблице
 _____
-#### Select
+#### Select 
+_____
+#### Операторы WHERE и ORDER BY с логическими операторами
 
 ***Показать все столбцы в таблице "product"***
 
@@ -116,6 +121,98 @@ where product_id <=6 or product_id >8;
 Результат:
 
 ![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-50-17.png "товар")
+
+#### Операторы GROUP BY и HAVING  с агрегатными функциями
+
+***Показать количество наименований в каждой категории товаров***
+
+```sql
+SELECT category AS 'Категория товаров',
+COUNT(product) AS 'Количество наименований'
+FROM ml.product
+GROUP BY category;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-28_12-29-22.png "группировка")
+
+***Показать товар с количеством, ценой и общей суммой более 50000***
+
+```sql
+SELECT product AS Товар,
+quantity AS Количество,
+price AS Стоимость,
+SUM(quantity * price) AS Сумма
+FROM ml.product
+GROUP BY product
+HAVING Сумма > 50000;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-28_12-29-54.png "группировка")
+
+***Показать категории товаров, а также максимальную, минимальную стоимость и среднюю цену, округленную до сотых***
+
+```sql
+SELECT category AS 'Категория товаров',
+MAX(price) AS 'Максимальная цена',
+MIN(price) AS 'Минимальная цена',
+ROUND(AVG(price),2) AS 'Средняя цена'
+FROM ml.product
+GROUP BY category;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-28_12-30-18.png "группировка")
+
+#### Вложенные операторы
+
+****Показать товары с максимальной ценой***
+
+```sql
+select* from ml.product
+where price=(select max(price) from ml.product);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-01_16-05-40.png "вложенный")
+
+***Показать товары с максимальным и минимальным количеством***
+
+```sql
+SELECT * FROM ml.product
+WHERE quantity = (SELECT MIN(quantity)FROM ml.product) or quantity = (SELECT MAX(quantity) FROM ml.product);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-01_16-06-00.png "вложенный")
+
+***Показать товары, которые принадлежат к категориям с 2 и более позициями товаров внутри***
+
+```sql
+select * from ml.product
+where category in (select category from ml.product group by category having count(category)>=2);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-01_16-06-28.png "вложенный")
+
+***Показать товары, у которых общая сумма больше среднего значения***
+
+```sql
+select * from ml.product
+where (quantity*price) > (select avg(quantity*price) from ml.product);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-01_16-08-28.png "вложенный")
 
 #### Insert
 
