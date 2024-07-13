@@ -13,6 +13,7 @@
      - Операторы WHERE и ORDER BY с логическими операторами
      - Операторы GROUP BY и HAVING  с агрегатными функциями
      - Вложенные запросы
+     - Связанные таблицы (JOIN)
    - [Insert](#insert)
    - [Update](#update)
    - [Delete](#delete)
@@ -213,6 +214,69 @@ where (quantity*price) > (select avg(quantity*price) from ml.product);
 Результат:
 
 ![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-01_16-08-28.png "вложенный")
+
+***Показать только те товары, у которых стоимость меньше самой большой средней стоимости товара каждой категории***
+
+```sql
+select * from ml.product
+where cost < any(select avg(cost) from ml.product group by category);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-01_21-34-19.png "вложенный")
+
+#### Связанные таблицы
+
+***Какие товары из Беларусии продаются и на какую сумму***
+
+```sql
+select products.product, 
+sum(`order`.quantity*`order`.price) as Объем_продаж
+from ml.products
+inner join manufacturer
+on products.manufacturer_id = manufacturer.manufacturer_id
+inner join `order`
+on products.product_id = `order`.product_id
+where address_manufacturer = 'Беларусь'
+group by product;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/ph_t6PI2C3U.jpg "join")
+
+***Показать наименование товара с артикулом,а также наименование производителя с телефоном и почтой
+тех товаров, чей остаток на складе меньше 10. Убрать null из пустых ячеек.***
+
+```sql
+select products.product, products.article, name_manufacturer,
+COALESCE(telephone_manufacturer,'') as telephone,
+COALESCE(email_manufacturer,'') as email
+from ml.products
+left join manufacturer
+on products.manufacturer_id = manufacturer.manufacturer_id
+where quantity < 10;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/gbofb3Yv2dQ111.jpg "join")
+
+***Показать имя покупателя, почту и сумму всех его заказов.***
+
+```sql
+select name_buyer, email_buyer, 
+sum(quantity*price) as 'Объем продаж'
+from buyer
+right join `order`
+on buyer.buyer_id = `order`.buyer_id
+group by name_buyer;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/UbjVzl9q_BQ.jpg "join")
 
 #### Insert
 
