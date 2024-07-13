@@ -9,10 +9,10 @@
    - [Создание таблиц с помощью ***ERR диаграммы***](#создание-таблиц-с-помощью-err-диаграммы)
    - [Удаление таблицы с помощью команды ***Drop***](#удаление-таблицы-с-помощью-команды-drop)
 4. [Команды манипуляции данными в таблице](#команды-манипуляции-данными-в-таблице)
-   - [Select]()
-   - [Insert]()
-   - [Update]()
-   - [Delete]()
+   - [Select](#select)
+   - [Insert](#insert)
+   - [Update](#update)
+   - [Delete](#delete)
    - [Select]()
 5. [Коллекция POSTMAN](#коллекция-postman)
 6. [Автотесты](#автотесты)
@@ -50,6 +50,42 @@ DROP TABLE shop.product;
 _____
 #### Select
 
+***Показать все столбцы в таблице "product"***
+
+```sql
+use ml;
+select * from product;
+```
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/table%20product.jpg "product")
+
+***Показать все товары в таблице и столбец назвать "Товар"***
+
+```sql
+select product as Товар from product;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-49-31.png "товар")
+
+***Показать продукт со стоимостью, где цена в промежутке между 1000 и 10000, отсортировать по возрастающей по цене***
+
+```sql
+select product, price from ml.product where price between 1000 and 10000 order by price asc;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-49-44.png "товар-с-ценой")
+
+
+select * from product where category="авиация" and subcategory="боевая" order by seller desc;
+
+select * from product where product_id not in (5,7,9) order by price;
+
+select *from product where product_id <=6 or product_id >8;
 
 #### Insert
 
