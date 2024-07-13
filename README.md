@@ -73,19 +73,49 @@ select product as Товар from product;
 ***Показать продукт со стоимостью, где цена в промежутке между 1000 и 10000, отсортировать по возрастающей по цене***
 
 ```sql
-select product, price from ml.product where price between 1000 and 10000 order by price asc;
+select product, price from ml.product
+where price between 1000 and 10000
+order by price asc;
 ```
 
 Результат:
 
 ![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-49-44.png "товар-с-ценой")
 
+***Показать все стобцы у товаров, которые относятся к категории "Авиация" и подкатегории "Боевая", отсортировав по производителю в обратном алфавитном порядке***
 
-select * from product where category="авиация" and subcategory="боевая" order by seller desc;
+```sql
+select * from product
+where category="авиация" and subcategory="боевая"
+order by seller desc;
+```
 
-select * from product where product_id not in (5,7,9) order by price;
+Результат:
 
-select *from product where product_id <=6 or product_id >8;
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-49-59.png "товар-с-категорией")
+
+***Показать товары, кроме тех, чье id равно 5,7 и 9, отсортировав по цене***
+
+```sql
+select * from product
+where product_id not in (5,7,9)
+order by price;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-50-07.png "товар")
+
+***Показать все товары с id меньше 6 (включительно) или больше 8***
+
+```sql
+select *from product 
+where product_id <=6 or product_id >8;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-06-26_11-50-17.png "товар")
 
 #### Insert
 
