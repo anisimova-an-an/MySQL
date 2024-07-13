@@ -338,3 +338,14 @@ set product = concat(category, "/ ", product);
 ![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-05_12-28-14.png "join")
 
 #### Delete
+
+***Удалить товар с ID=4***
+
+```sql
+DELETE FROM shop.products
+WHERE id_products=4;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/gdKkavoNmoE.jpg "удалить")
