@@ -277,6 +277,17 @@ group by name_buyer;
 
 #### Insert
 
+***Добавление в таблицу Товар Карандаша со стоимостью 3р***
+
+```sql
+INSERT INTO shop.products (product, price)
+VALUES ("карандаш", 3);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/YniDtZzWfa8.jpg "добавление")
+
 ***Создать таблицу и добавить в нее пользователей, которые не совершали ни одной покупки***
 
 ```sql
@@ -300,6 +311,18 @@ where order_id is null;
 
 
 #### Update
+
+***Изменить стоимость карандаша на 4р***
+
+```sql
+UPDATE shop.products
+SET price=4
+WHERE id_products=2;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/4yeieHfjcIY.jpg "join")
 
 ***Добавить названия категорий в названия товаров***
 
