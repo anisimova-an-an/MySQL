@@ -277,8 +277,41 @@ group by name_buyer;
 
 #### Insert
 
+***Создать таблицу и добавить в нее пользователей, которые не совершали ни одной покупки***
+
+```sql
+create table ml.unactive_buyer (
+unactive_buyer_id int primary key auto_increment,
+unactive_buyer varchar(50));
+
+insert into ml.unactive_buyer (unactive_buyer)
+select name_buyer
+from ml.buyer
+left join ml.`order`
+on buyer.buyer_id=`order`.buyer_id
+where order_id is null;
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-05_11-43-29.png "join")
+
+
+
 
 #### Update
 
+***Добавить названия категорий в названия товаров***
+
+```sql
+update ml.products
+inner join ml.category
+on products.category_id = category.category_id
+set product = concat(category, "/ ", product);
+```
+
+Результат:
+
+![Alt-текст](https://github.com/anisimova-an-an/MySQL/blob/main/2024-07-05_12-28-14.png "join")
 
 #### Delete
